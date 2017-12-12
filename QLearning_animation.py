@@ -4,6 +4,20 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.animation as animation
 
+'''
+ユーザ設定パラメータ
+'''
+# 学習方法変更用の定数
+# 0:Q学習, 1:Sarsa, 2:Sarsa(λ)
+FLAG = 0
+
+# シミュレータ出力間隔
+# n回に1回出力
+SIMULATION_TERM = 50
+
+'''
+学習プログラム
+'''
 # パラメータ
 MAP_W = 12
 MAP_H = 6
@@ -24,10 +38,6 @@ ONE_STEP_PENALTY = 1
 LEANING_TIMES = 1000
 # Qの初期値の最大値（乱数の最大値）
 INIT_Q_MAX = 30
-
-# 学習方法変更用の定数
-# 0:Q学習, 1:Sarsa, 2:Sarsa(λ)
-FLAG = 0
 
 # 迷路
 # 0 通れない 崖
@@ -116,7 +126,7 @@ def main():
 			updateS()
 			# plt.close()
 			# mapGraphic(sPosX, sPosY)
-			if i % 100 == 0:
+			if i % SIMULATION_TERM == 0:
 				plt.close()
 				mapGraphic(sPosX, sPosY)
 
