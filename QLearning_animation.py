@@ -139,6 +139,8 @@ def main():
 			minStepNum = stepNum
 			remRoute = route
 
+		route = "Route\n"
+
 	print(remRoute)
 	printQ()
 	print("Finished")
