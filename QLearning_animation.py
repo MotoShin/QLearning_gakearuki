@@ -75,6 +75,7 @@ sameA = [0] * 4
 
 route = "Route\n"
 
+# main関数
 def main():
 	global sPosX, sPosY, sdPosX, sdPosY, route
 
@@ -194,6 +195,7 @@ def eGreedy():
 
 	return selectedA
 
+# 観測地点での行動の選択 ε-greedy法
 def eGreedySd():
 	global sPosX, sPosY, sdPosX, sdPosY
 	selectedA = 0
@@ -226,6 +228,7 @@ def eGreedySd():
 
 	return selectedA
 
+# 現在の位置での行動の選択 greedy法
 def greedy():
 	global sPosX, sPosY, sdPosX, sdPosY
 	selectedA = 0
@@ -236,6 +239,7 @@ def greedy():
 
 	return selectedA
 
+# 現在いる場所の左右上下のQ値を確認
 def checkSurround():
 	global sPosX, sPosY, sdPosX, sdPosY
 	selectedA = 0
@@ -254,6 +258,7 @@ def checkSurround():
 
 	return False
 
+# 観測地点の上下左右のQ値を確認
 def checkSurroundSd():
 	global sPosX, sPosY, sdPosX, sdPosY
 	selectedA = 0
@@ -334,13 +339,14 @@ def updateqQ(r, a):
 
 	q[sPosX][sPosY][a] = q[sPosX][sPosY][a] + ALPHA * (r + GAMMA * q[sdPosX][sdPosY][maxA] - q[sPosX][sPosY][a])
 
+# Q値の更新 Sarsa
 def updatesQ(r, a):
 	global sPosX, sPosY, sdPosX, sdPosY, q
 	nextA = eGreedySd()
 
 	q[sPosX][sPosY][a] = q[sPosX][sPosY][a] + ALPHA * (r + GAMMA * q[sdPosX][sdPosY][nextA] - q[sPosX][sPosY][a])
 
-
+# Q値の更新 Sarsa(λ)
 def updatetQ(r, a):
 	global sPosX, sPosY, sdPosX, sdPosY, q, e
 	nextA = eGreedySd()
@@ -350,17 +356,20 @@ def updatetQ(r, a):
 
 	updateE(DELTA);
 
+# 現在の場所を観測地点に更新
 def updateS():
 	global sPosX, sPosY, sdPosX, sdPosY
 	sPosX = sdPosX
 	sPosY = sdPosY
 
+# 全てのQ値を出力
 def printQ():
 	for x in range(MAP_W):
 		for y in range(MAP_H):
 			for a in range(4):
 				print("x:" + str(x) + " y:" + str(y) + " a:" + str(a) + " Q:" + str(q[x][y][a]))
 
+# 崖に落ちたかの確認
 def checkCliff():
 	global sPosX, sPosY, sdPosX, sdPosY
 	if sPosX >= 1 and sPosX <= MAP_W - 2:
@@ -368,6 +377,7 @@ def checkCliff():
 			return True
 	return False
 
+# エージェントの初期化
 def initAgent():
 	global sPosX, sPosY
 	sPosX = 0
@@ -381,6 +391,7 @@ def updateE(delta):
 				q[x][y][a] += ALPHA * delta * e[x][y][a];
 				e[x][y][a] = GAMMA * LAMBDA * e[x][y][a];
 
+# フィールドをグラフィカルに表示
 def mapGraphic(x, y):
 	fig = plt.figure()
 	ax = plt.axes()
@@ -418,5 +429,6 @@ def mapGraphic(x, y):
 	plt.yticks([1.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
 	plt.pause(.01)
 
+# main関数の実行
 if __name__ == "__main__":
 	main()
