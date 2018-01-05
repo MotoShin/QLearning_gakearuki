@@ -9,7 +9,7 @@ import matplotlib.animation as animation
 '''
 # 学習方法変更用の定数
 # 0:Q学習, 1:Sarsa, 2:Sarsa(λ)
-FLAG = 0
+FLAG = 3
 
 # シミュレータ出力間隔
 # n回に1回出力
@@ -351,7 +351,7 @@ def updatetQ(r, a):
 	global sPosX, sPosY, sdPosX, sdPosY, q, e
 	nextA = eGreedySd()
 
-	DELTA = r + GAMMA * q[sdPosX][sdPosY][nextA] - q[sPosX][sPosY][a];
+	DELTA = r + GAMMA * (q[sdPosX][sdPosY][nextA] - q[sPosX][sPosY][a]);
 	e[sPosX][sPosY][a] += 1;
 
 	updateE(DELTA);
@@ -364,10 +364,11 @@ def updateS():
 
 # 全てのQ値を出力
 def printQ():
+	direct = {0:"LEFT", 1:"UP", 2:"RIGHT", 3:"DOWN"}
 	for x in range(MAP_W):
 		for y in range(MAP_H):
 			for a in range(4):
-				print("x:" + str(x) + " y:" + str(y) + " a:" + str(a) + " Q:" + str(q[x][y][a]))
+				print("x:" + str(x) + " y:" + str(y) + " " + direct[a] + "\tQ:" + str(q[x][y][a]))
 
 # 崖に落ちたかの確認
 def checkCliff():
